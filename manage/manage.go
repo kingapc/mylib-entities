@@ -53,6 +53,25 @@ func GetRent(nr Status) bool {
 	}
 }
 
+func ReturBook(id int) bool {
+
+	db, errc := conn.GetConnection()
+
+	if errc {
+		return false
+	} else {
+		dt := time.Now().Local()
+		sqlStatement := `UPDATE university.status SET return_date = $1, is_returned = true WHERE status_id = $2`
+		_, err := db.Exec(sqlStatement, dt.Format("2006-01-02"), id)
+
+		if err != nil {
+			return false
+		} else {
+			return true
+		}
+	}
+}
+
 /*
 func main() {
 
