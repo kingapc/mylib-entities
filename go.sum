@@ -1,0 +1,8 @@
+github.com/lib/pq v1.10.3 h1:v9QZf2Sn6AmjXtQeFpdoq/eaNtYP6IN+7lcrygsIAtg=
+github.com/lib/pq v1.10.3/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
+github.com/rpinedafocus/mylib-dbconn v0.0.0-20211017235435-469d2901d9ca h1:qieUyEYD5p/pOMdaUXWO6wV/lcg0Qiwmd2L5viPjanI=
+github.com/rpinedafocus/mylib-dbconn v0.0.0-20211017235435-469d2901d9ca/go.mod h1:HSPAJDrUGqdCK5QtR8Sg6Of3GY659w+/e/0d2PiVMH0=
+github.com/rpinedafocus/mylib-dbconn v0.0.0-20211018004122-e6ecbf81cf05 h1:7WEvijDxnSXBp/neRGTEXpdbzp8QBa5TS+LzjxuMM5U=
+github.com/rpinedafocus/mylib-dbconn v0.0.0-20211018004122-e6ecbf81cf05/go.mod h1:HSPAJDrUGqdCK5QtR8Sg6Of3GY659w+/e/0d2PiVMH0=
+github.com/rpinedafocus/mylib-dbconn v0.0.0-20211018012155-d4e63cb3964e h1:bos35BRG2EijbpQnr83ANjEgXpc4lWwBeXzxgpBEqS0=
+github.com/rpinedafocus/mylib-dbconn v0.0.0-20211018012155-d4e63cb3964e/go.mod h1:HSPAJDrUGqdCK5QtR8Sg6Of3GY659w+/e/0d2PiVMH0=
