@@ -1,8 +1,6 @@
 package entities
 
 import (
-	"fmt"
-
 	conn "github.com/rpinedafocus/mylib-dbconn"
 )
 
@@ -57,6 +55,7 @@ func GetRows() []Authors {
 	}
 }
 
+/*
 func main() {
 
 	var test = GetRows()
@@ -72,3 +71,4 @@ func main() {
 		fmt.Println("\n", a.AUTHOR_ID, a.NAME)
 	}
 }
+*/
