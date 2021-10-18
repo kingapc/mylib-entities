@@ -51,7 +51,7 @@ func GetBook(id int) (Books, bool) {
 	if errc {
 		return book, false
 	} else {
-		stmt, err := db.Prepare("SELECT TRIM(a.name_book) NAME, COALESCE(a.second_name,'') AKA, a.total TOTAL, a.publish_date PUBLIS_DATE, TRIM(b.name) AUTHOR, TRIM(c.name) GENRE " +
+		stmt, err := db.Prepare("SELECT a.book_id BOOK_ID,TRIM(a.name_book) NAME, COALESCE(a.second_name,'') AKA, a.total TOTAL, a.publish_date PUBLIS_DATE, TRIM(b.name) AUTHOR, TRIM(c.name) GENRE " +
 			" FROM university.books a INNER JOIN university.authors b ON a.author_id = b.author_id INNER JOIN university.genres c ON a.genre_id = c.genre_id " +
 			" WHERE a.book_id = $1")
 
@@ -73,6 +73,7 @@ func GetBook(id int) (Books, bool) {
 func main() {
 
 	var test = GetBooks()
+
 	// j, err := json.Marshal(test)
 
 	// if err != nil {
