@@ -5,7 +5,7 @@ import (
 )
 
 type Authors struct {
-	author_id int    `json:"id"`
+	author_id int    `json:"author_id"`
 	name      string `json:"name"`
 }
 
@@ -36,7 +36,7 @@ func GetRows() []Authors {
 	if errc {
 		return auth
 	} else {
-		rows, err := db.Query("SELECT author_id, name FROM university.authors")
+		rows, err := db.Query("SELECT author_id, trim(name) FROM university.authors")
 
 		if err != nil {
 			return auth
@@ -50,6 +50,10 @@ func GetRows() []Authors {
 				auth = append(auth, author)
 			}
 
+			// var auth1 = []Authors{
+			// 	{author_id: 1, name: "test1"},
+			// 	{author_id: 2, name: "test2"},
+			// }
 			return auth
 		}
 	}
@@ -68,7 +72,14 @@ func main() {
 	// 	fmt.Printf("\nRegistro no creado\n")
 	// }
 
-	test := GetRows()
+	var test = GetRows()
+	// j, err := json.Marshal(test)
+
+	// if err != nil {
+	// 	fmt.Printf("Error: %s", err.Error())
+	// } else {
+	// 	fmt.Println(string(j))
+	// }
 
 	for _, a := range test {
 		fmt.Println("\n", a.author_id, a.name)
