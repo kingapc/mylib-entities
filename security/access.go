@@ -5,9 +5,9 @@ import (
 )
 
 type InfoLogin struct {
-	full_name string
-	user_name string
-	role_id   int
+	FULL_NAME string `json:"full_name"`
+	USER_NAME string `json:"user_name"`
+	ROLE_ID   int    `json:"role_id"`
 }
 
 func GetAccess(myLevel int, endpoint string) bool {
@@ -51,7 +51,7 @@ func Login(user string, password string) (InfoLogin, bool) {
 		panic(err)
 		return infoLogin, true
 	}
-	err = stmt.QueryRow(user, password).Scan(&infoLogin.full_name, &infoLogin.user_name, &infoLogin.role_id)
+	err = stmt.QueryRow(user, password).Scan(&infoLogin.FULL_NAME, &infoLogin.USER_NAME, &infoLogin.ROLE_ID)
 
 	return infoLogin, false
 }
