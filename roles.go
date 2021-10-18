@@ -8,7 +8,7 @@ type Roles struct {
 	role_name string
 }
 
-func Create(newRole Roles) bool {
+func CreateRole(newRole Roles) bool {
 
 	db, errc := conn.GetConnection()
 
