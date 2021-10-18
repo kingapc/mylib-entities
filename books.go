@@ -78,28 +78,32 @@ func GetBook(id int) (Books, bool) {
 	}
 }
 
-func GetMyReservesRents(user string) (MyBook, bool) {
+func GetMyReservesRents(user string) ([]MyBook, bool) {
 
 	var book MyBook
+	var books []MyBook
 	db, errc := conn.GetConnection()
 
 	if errc {
-		return book, false
+		return books, false
 	} else {
-		stmt, err := db.Prepare("SELECT a.book_id ID, b.name_book NAME_BOOK, CASE WHEN a.reserved_date IS NULL THEN 'RENTED' ELSE 'RESERVED' END STATUS, b.publish_date PUBLISH_DATE, " +
-			" c.name AUTHOR, d.name GENRE FROM university.status a INNER JOIN university.books b ON a.book_id = b.book_id INNER JOIN university.authors c ON c.author_id = b.author_id " +
-			" INNER JOIN university.genres d ON d.genre_id = b.genre_id WHERE a.rented_reserved_by = $1")
+		rows, err := db.Query("SELECT a.book_id ID, b.name_book NAME_BOOK, CASE WHEN a.reserved_date IS NULL THEN 'RENTED' ELSE 'RESERVED' END STATUS, b.publish_date PUBLISH_DATE, "+
+			" c.name AUTHOR, d.name GENRE FROM university.status a INNER JOIN university.books b ON a.book_id = b.book_id INNER JOIN university.authors c ON c.author_id = b.author_id "+
+			" INNER JOIN university.genres d ON d.genre_id = b.genre_id WHERE a.rented_reserved_by = $1", user)
 
 		if err != nil {
-			return book, false
+			return books, false
 		} else {
-			err = stmt.QueryRow(user).Scan(&book.ID, &book.NAME_BOOK, &book.STATUS, &book.PUBLISH_DATE, &book.AUTHOR, &book.GENRE)
+			for rows.Next() {
+				err := rows.Scan(&book.ID, &book.NAME_BOOK, &book.STATUS, &book.PUBLISH_DATE, &book.AUTHOR, &book.GENRE)
+				if err != nil {
+					return books, false
+				}
 
-			if err != nil {
-				return book, false
+				books = append(books, book)
 			}
 
-			return book, true
+			return books, true
 		}
 	}
 }
