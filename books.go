@@ -22,15 +22,15 @@ func GetBooks() []Books {
 	if errc {
 		return books
 	} else {
-		rows, err := db.Query("SELECT a.name_book NAME, a.second_name AKA, a.total TOTAL, a.publish_date PUBLIS_DATE, b.name AUTHOR, c.name GENRE FROM university.books a INNER JOIN university.authors b ON a.author_id = b.author_id INNER JOIN university.genres c ON a.genre_id = c.genre_id")
+		rows, err := db.Query("SELECT TRIM(a.name_book) NAME, COALESCE(a.second_name,'') AKA, a.total TOTAL, a.publish_date PUBLIS_DATE, TRIM(b.name) AUTHOR, TRIM(c.name) GENRE FROM university.books a INNER JOIN university.authors b ON a.author_id = b.author_id INNER JOIN university.genres c ON a.genre_id = c.genre_id")
 
 		if err != nil {
-			return books
+			panic(err)
 		} else {
 			for rows.Next() {
 				err := rows.Scan(&book.NAME, &book.AKA, &book.TOTAL, &book.PUBLIS_DATE, &book.AUTHOR, &book.GENRE)
 				if err != nil {
-					return books
+					panic(err)
 				}
 
 				books = append(books, book)
@@ -40,3 +40,21 @@ func GetBooks() []Books {
 		}
 	}
 }
+
+/*
+func main() {
+
+	var test = GetBooks()
+	// j, err := json.Marshal(test)
+
+	// if err != nil {
+	// 	fmt.Printf("Error: %s", err.Error())
+	// } else {
+	// 	fmt.Println(string(j))
+	// }
+
+	for _, a := range test {
+		fmt.Println("\n", a.NAME, a.AKA)
+	}
+}
+*/

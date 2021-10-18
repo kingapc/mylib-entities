@@ -4,6 +4,12 @@ import (
 	conn "github.com/rpinedafocus/mylib-dbconn"
 )
 
+type InfoLogin struct {
+	full_name string
+	user_name string
+	role_id   int
+}
+
 func GetAccess(myLevel int, endpoint string) bool {
 
 	db, errc := conn.GetConnection()
@@ -29,15 +35,36 @@ func GetAccess(myLevel int, endpoint string) bool {
 	}
 }
 
+func Login(user string, password string) (InfoLogin, bool) {
+
+	db, errc := conn.GetConnection()
+
+	var infoLogin InfoLogin
+
+	if errc {
+		panic(errc)
+		return infoLogin, true
+	}
+
+	stmt, err := db.Prepare(`SELECT CONCAT(trim(first_name),' ',trim(last_name)) as full_name, user_name as user, role_id level FROM university.users WHERE trim(user_name) = $1 AND trim(password) = $2`)
+	if err != nil {
+		panic(err)
+		return infoLogin, true
+	}
+	err = stmt.QueryRow(user, password).Scan(&infoLogin.full_name, &infoLogin.user_name, &infoLogin.role_id)
+
+	return infoLogin, false
+}
+
 /*
 func main() {
 
-	var test = GetAccess(3, "/books")
+	test, err := Login("root", "root")
 
-	if test {
-		fmt.Println("you have access")
-	} else {
+	if err {
 		fmt.Println("you don't have access")
+	} else {
+		fmt.Print(test)
 	}
 }
 */
