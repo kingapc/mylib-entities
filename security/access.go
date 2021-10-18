@@ -4,6 +4,16 @@ import (
 	conn "github.com/rpinedafocus/mylib-dbconn"
 )
 
+type Users struct {
+	USER_ID    int    `json:"user_id"`
+	USER_NAME  string `json:"user_name"`
+	FIRST_NAME string `json:"first_name"`
+	LAST_NAME  string `json:"last_name"`
+	EMAIL      string `json:"email"`
+	ROLE_ID    string `json:"role_id"`
+	PASSWORD   string `json:"password"`
+}
+
 type InfoLogin struct {
 	FULL_NAME string `json:"full_name"`
 	USER_NAME string `json:"user_name"`
@@ -52,6 +62,24 @@ func Login(user string, password string) (InfoLogin, bool) {
 	err = stmt.QueryRow(user, password).Scan(&infoLogin.FULL_NAME, &infoLogin.USER_NAME, &infoLogin.ROLE_ID)
 
 	return infoLogin, false
+}
+
+func CreateUser(nu Users) (Users, bool) {
+
+	db, errc := conn.GetConnection()
+
+	if errc {
+		return nu, false
+	} else {
+		sqlStatement := `INSERT INTO university.users (user_name, first_name, last_name, email, role_id, password) VALUES ($1,$2,$3,$4,$5,$6)`
+		_, err := db.Exec(sqlStatement, nu.USER_NAME, nu.FIRST_NAME, nu.LAST_NAME, nu.EMAIL, nu.ROLE_ID, nu.PASSWORD)
+
+		if err != nil {
+			return nu, false
+		} else {
+			return nu, true
+		}
+	}
 }
 
 /*
