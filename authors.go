@@ -5,8 +5,8 @@ import (
 )
 
 type Authors struct {
-	author_id int
-	name      string
+	author_id int    `json:"id"`
+	name      string `json:"name"`
 }
 
 func Create(newAuthor Authors) bool {
