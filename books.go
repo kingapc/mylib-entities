@@ -108,6 +108,24 @@ func GetMyReservesRents(user string) ([]MyBook, bool) {
 	}
 }
 
+func CreateBook(nb Books) (Books, bool) {
+
+	db, errc := conn.GetConnection()
+
+	if errc {
+		return nb, false
+	} else {
+		sqlStatement := `INSERT INTO university.books (name_book,second_name,total,publish_date,author_id,genre_id) VALUES ($1,$2,$3,$4,$5,$6)`
+		_, err := db.Exec(sqlStatement, nb.NAME, nb.AKA, nb.TOTAL, nb.PUBLIS_DATE, nb.AUTHOR, nb.GENRE)
+
+		if err != nil {
+			return nb, false
+		} else {
+			return nb, true
+		}
+	}
+}
+
 /*
 func main() {
 
