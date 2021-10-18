@@ -8,7 +8,7 @@ type Genres struct {
 	name string
 }
 
-func Create(newGenre Genres) bool {
+func CreateGenre(newGenre Genres) bool {
 
 	db, errc := conn.GetConnection()
 
