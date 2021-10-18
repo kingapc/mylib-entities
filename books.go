@@ -23,14 +23,14 @@ func GetBooks() []Books {
 	if errc {
 		return books
 	} else {
-		rows, err := db.Query("SELECT TRIM(a.name_book) NAME, COALESCE(a.second_name,'') AKA, a.total TOTAL, a.publish_date PUBLIS_DATE, TRIM(b.name) AUTHOR, TRIM(c.name) GENRE " +
+		rows, err := db.Query("SELECT a.book_id BOOK_ID, TRIM(a.name_book) NAME, COALESCE(a.second_name,'') AKA, a.total TOTAL, a.publish_date PUBLIS_DATE, TRIM(b.name) AUTHOR, TRIM(c.name) GENRE " +
 			" FROM university.books a INNER JOIN university.authors b ON a.author_id = b.author_id INNER JOIN university.genres c ON a.genre_id = c.genre_id")
 
 		if err != nil {
 			panic(err)
 		} else {
 			for rows.Next() {
-				err := rows.Scan(&book.NAME, &book.AKA, &book.TOTAL, &book.PUBLIS_DATE, &book.AUTHOR, &book.GENRE)
+				err := rows.Scan(&book.BOOK_ID, &book.NAME, &book.AKA, &book.TOTAL, &book.PUBLIS_DATE, &book.AUTHOR, &book.GENRE)
 				if err != nil {
 					panic(err)
 				}
