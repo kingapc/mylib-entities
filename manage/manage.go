@@ -1,7 +1,6 @@
-package main
+package manage
 
 import (
-	"fmt"
 	"time"
 
 	conn "github.com/rpinedafocus/mylib-dbconn"
@@ -54,6 +53,7 @@ func GetRent(nr Status) bool {
 	}
 }
 
+/*
 func main() {
 
 	var a = Status{
@@ -65,3 +65,4 @@ func main() {
 	var test = GetReserve(a)
 	fmt.Print(test)
 }
+*/
