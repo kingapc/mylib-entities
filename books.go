@@ -14,6 +14,15 @@ type Books struct {
 	GENRE       string `json:"genre"`
 }
 
+type MyBook struct {
+	ID           int    `json:"id"`
+	NAME_BOOK    string `json:"name_book"`
+	STATUS       string `json:"status"`
+	PUBLISH_DATE string `json:"publish_date"`
+	AUTHOR       string `json:"author"`
+	GENRE        string `json:"gere"`
+}
+
 func GetBooks() []Books {
 
 	var book Books
@@ -59,6 +68,32 @@ func GetBook(id int) (Books, bool) {
 			return book, false
 		} else {
 			err = stmt.QueryRow(id).Scan(&book.BOOK_ID, &book.NAME, &book.AKA, &book.TOTAL, &book.PUBLIS_DATE, &book.AUTHOR, &book.GENRE)
+
+			if err != nil {
+				return book, false
+			}
+
+			return book, true
+		}
+	}
+}
+
+func GetMyReservesRents(user string) (MyBook, bool) {
+
+	var book MyBook
+	db, errc := conn.GetConnection()
+
+	if errc {
+		return book, false
+	} else {
+		stmt, err := db.Prepare("SELECT a.book_id ID, b.name_book NAME_BOOK, CASE WHEN a.reserved_date IS NULL THEN 'RENTED' ELSE 'RESERVED' END STATUS, b.publish_date PUBLISH_DATE, " +
+			" c.name AUTHOR, d.name GENRE FROM university.status a INNER JOIN university.books b ON a.book_id = b.book_id INNER JOIN university.authors c ON c.author_id = b.author_id " +
+			" INNER JOIN university.genres d ON d.genre_id = b.genre_id WHERE a.rented_reserved_by = $1")
+
+		if err != nil {
+			return book, false
+		} else {
+			err = stmt.QueryRow(user).Scan(&book.ID, &book.NAME_BOOK, &book.STATUS, &book.PUBLISH_DATE, &book.AUTHOR, &book.GENRE)
 
 			if err != nil {
 				return book, false
