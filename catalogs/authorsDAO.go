@@ -1,4 +1,4 @@
-package entities
+package authorEntity
 
 import (
 	conn "github.com/rpinedafocus/mylib-dbconn"

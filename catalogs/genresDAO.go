@@ -1,4 +1,4 @@
-package entities
+package genreEntity
 
 import (
 	conn "github.com/rpinedafocus/mylib-dbconn"
