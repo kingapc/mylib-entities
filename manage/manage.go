@@ -1,6 +1,7 @@
-package manage
+package main
 
 import (
+	"fmt"
 	"time"
 
 	conn "github.com/rpinedafocus/mylib-dbconn"
@@ -23,8 +24,8 @@ func GetReserve(nr Status) bool {
 		return false
 	} else {
 		dt := time.Now().Local()
-		sqlStatement := `INSERT INTO university.status (book_id,reserved_date,rent_date,return_date,rented_reserved_by,is_returned) VALUES ($1,$2,$3,$4,$5,$6)`
-		_, err := db.Exec(sqlStatement, nr.BOOK_ID, dt.Format("2006-01-02"), nr.RENT_DATE, nr.RETURN_DATE, nr.RENTED_RESERVED_BY, nr.IS_RETURNED)
+		sqlStatement := `INSERT INTO university.status (book_id,reserved_date,rented_reserved_by,is_returned) VALUES ($1,$2,$3,$4)`
+		_, err := db.Exec(sqlStatement, nr.BOOK_ID, dt.Format("2006-01-02"), nr.RENTED_RESERVED_BY, nr.IS_RETURNED)
 
 		if err != nil {
 			return false
@@ -42,8 +43,8 @@ func GetRent(nr Status) bool {
 		return false
 	} else {
 		dt := time.Now().Local()
-		sqlStatement := `INSERT INTO university.status (book_id,reserved_date,rent_date,return_date,rented_reserved_by,is_returned) VALUES ($1,$2,$3,$4,$5,$6)`
-		_, err := db.Exec(sqlStatement, nr.BOOK_ID, nr.RESERVED_DATE, dt.Format("2006-01-02"), nr.RETURN_DATE, nr.RENTED_RESERVED_BY, nr.IS_RETURNED)
+		sqlStatement := `INSERT INTO university.status (book_id,rent_date,rented_reserved_by,is_returned) VALUES ($1,$2,$3,$4)`
+		_, err := db.Exec(sqlStatement, nr.BOOK_ID, dt.Format("2006-01-02"), nr.RENTED_RESERVED_BY, nr.IS_RETURNED)
 
 		if err != nil {
 			return false
@@ -51,4 +52,16 @@ func GetRent(nr Status) bool {
 			return true
 		}
 	}
+}
+
+func main() {
+
+	var a = Status{
+		BOOK_ID:            1,
+		RENTED_RESERVED_BY: "root",
+		IS_RETURNED:        false,
+	}
+
+	var test = GetReserve(a)
+	fmt.Print(test)
 }
