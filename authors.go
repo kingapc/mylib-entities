@@ -1,12 +1,14 @@
 package entities
 
 import (
+	"fmt"
+
 	conn "github.com/rpinedafocus/mylib-dbconn"
 )
 
 type Authors struct {
-	author_id int    `json:"author_id"`
-	name      string `json:"name"`
+	AUTHOR_ID int    `json:"author_id"`
+	NAME      string `json:"name"`
 }
 
 func Create(newAuthor Authors) bool {
@@ -17,7 +19,7 @@ func Create(newAuthor Authors) bool {
 		return false
 	} else {
 		sqlStatement := `INSERT INTO university."authors" (name) VALUES ($1)`
-		_, err := db.Exec(sqlStatement, newAuthor.name)
+		_, err := db.Exec(sqlStatement, newAuthor.NAME)
 
 		if err != nil {
 			return false
@@ -42,7 +44,7 @@ func GetRows() []Authors {
 			return auth
 		} else {
 			for rows.Next() {
-				err := rows.Scan(&author.author_id, &author.name)
+				err := rows.Scan(&author.AUTHOR_ID, &author.NAME)
 				if err != nil {
 					return auth
 				}
@@ -50,27 +52,12 @@ func GetRows() []Authors {
 				auth = append(auth, author)
 			}
 
-			// var auth1 = []Authors{
-			// 	{author_id: 1, name: "test1"},
-			// 	{author_id: 2, name: "test2"},
-			// }
 			return auth
 		}
 	}
 }
 
-/*
 func main() {
-	// test := Authors{}
-	// test.name = "Author Test"
-
-	// result := Create(test)
-
-	// if result {
-	// 	fmt.Printf("\nRegistro creado\n")
-	// } else {
-	// 	fmt.Printf("\nRegistro no creado\n")
-	// }
 
 	var test = GetRows()
 	// j, err := json.Marshal(test)
@@ -82,7 +69,6 @@ func main() {
 	// }
 
 	for _, a := range test {
-		fmt.Println("\n", a.author_id, a.name)
+		fmt.Println("\n", a.AUTHOR_ID, a.NAME)
 	}
 }
-*/
